@@ -1,32 +1,27 @@
-import express from "express";
-import bodyParser from "body-parser";
 import MyLogger from "./middleWare/myLogger";
-import Routes from "./components";
+
+import express from "express";
 import mongoose from "mongoose";
-import { MONGO } from "./conf/env";
+import dotenv from "dotenv";
+import routes from "./routes";
+
+dotenv.config();
+
+const app = express();
 
 mongoose.connect(
-  MONGO,
+  process.env.MONGO,
   { useNewUrlParser: true }
 );
-mongoose.set('useCreateIndex', true);
+app.use(MyLogger);
 
 var db = mongoose.connection;
 
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function() {
+  app.use("/", routes);
 
-  const app = express();
-
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(MyLogger);
-
-  app.use("/", Routes);
-
-  const PORT = 5000;
-
-  app.listen(PORT, () => {
-    console.log(`server running on port ${PORT}`);
+  var listener = app.listen(process.env.PORT, function() {
+    console.log("Your app is listening on port " + listener.address().port);
   });
 });
