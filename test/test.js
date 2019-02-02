@@ -5,7 +5,9 @@ import chaiHttp from "chai-http";
 import dotenv from "dotenv";
 
 chai.use(chaiHttp);
-dotenv.config();
+const envFile = process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : '.env'
+dotenv.config({ path: envFile });
+console.log(process.env.JWT_SECRET)
 
 import routes from "../routes";
 
