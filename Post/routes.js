@@ -6,6 +6,11 @@ import { verifyJWT_MW } from "../middleware/auth";
 const router = express.Router();
 
 router.use(bodyParser.json());
+router.get("/posts", (req, res) => {
+  service
+    .getByPage(req.query.page || 1, req.query.per_page || 10)
+    .then(posts => res.status(200).json({ posts }));
+});
 router.all("/posts", verifyJWT_MW);
 
 router.post("/posts", (req, res) => {
@@ -19,10 +24,6 @@ router.post("/posts", (req, res) => {
   );
 });
 
-router.get("/posts", (req, res) => {
-  service
-    .getByPage(req.query.page || 1, req.query.per_page || 10)
-    .then(posts => res.status(200).json({ posts }));
-});
+
 
 export default router;

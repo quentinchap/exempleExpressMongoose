@@ -1,4 +1,3 @@
-import MyLogger from "./middleWare/myLogger";
 
 import express from "express";
 import mongoose from "mongoose";
@@ -13,7 +12,6 @@ mongoose.connect(
   process.env.MONGO,
   { useNewUrlParser: true }
 );
-app.use(MyLogger);
 
 var db = mongoose.connection;
 
@@ -25,3 +23,5 @@ db.once("open", function() {
     console.log("Your app is listening on port " + listener.address().port);
   });
 });
+
+export default app;
