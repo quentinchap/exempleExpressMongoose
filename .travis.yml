@@ -4,3 +4,11 @@ node_js:
 cache:
   directories:
     - "node_modules"
+branches:
+  only:
+  - master
+deploy:
+  provider: openshift
+  user: $OPEN_SHIFT_USER
+  password: $OPEN_SHIFT_PASS
+  domain: $OPEN_SHIFT_DOMAIN
